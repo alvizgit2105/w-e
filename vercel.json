@@ -1,0 +1,10 @@
+{
+  "redirects": [
+    {
+      "source": "/",
+      "destination": "/Dash.html",
+      "permanent": false
+    }
+  ]
+}
+
