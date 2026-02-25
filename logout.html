@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logout - Wise-Vent</title>
+    <link rel="stylesheet" href="Dash.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            background-image: url('Wise-Ventbg.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center;
+        }
+        /* .hero-section {
+            background: transparent !important;
+            color: var(--text-primary); 
+        } */
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-calendar-alt"></i> Wise-Vent
+            </div>
+            <ul class="nav-menu" id="nav-menu">
+                <li class="nav-item"><a href="Dash.html#home" class="nav-link">Dashboard</a></li>
+                <li class="nav-item"><a href="logout.html" class="nav-link">Log Out</a></li>
+                <li class="nav-item nav-profile">
+                    <a href="logout.html" class="profile-btn">
+                        <i class="fas fa-sign-out-alt"></i> Log Out
+                    </a>
+                </li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="content-wrapper logout-page">
+        <div class="container">
+            <div class="logout-container">
+                <div class="logout-card">
+                    <div class="logout-icon">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </div>
+                    <h1>You have been logged out</h1>
+                    <p>Thank you for using Wise-vent. Your session has been securely terminated.</p>
+                    
+                    <div class="logout-info">
+                        <div class="info-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Your account is secure</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>Session data has been cleared</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-lock"></i>
+                            <span>All connections have been closed</span>
+                        </div>
+                    </div>
+
+                    <div class="logout-actions">
+                        <a href="index.php" class="btn btn-secondary">
+                            <i class="fas fa-sign-in-alt"></i> Login Again
+                        </a>
+                    </div>
+
+                    <p class="logout-footer">
+                        If you didn't intend to logout, check your account security settings.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Wise-Vent</h4>
+                    <p>Your ultimate event management platform</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="Dash.html#home">Dashboard</a></li>
+                        <li><a href="myevents.html">My Events</a></li>
+                        <li><a href="user.html">User</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Follow Us</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <p class="footer-bottom">&copy; 2026 Wise-vent. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

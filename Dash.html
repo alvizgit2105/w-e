@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Wise-Vent</title>
+    <link rel="stylesheet" href="Dash.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            background-image: url('Wise-Ventbg.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center;
+        }
+        .hero-section {
+            background: transparent !important; /* Added to remove theme gradient */
+            color: var(--text-primary); /* Adjusted for contrast on background image */
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-calendar-alt"></i> Wise-Vent
+            </div>
+            <ul class="nav-menu" id="nav-menu">
+                <li class="nav-item"><a href="#home" class="nav-link">Dashboard</a></li>
+                <li class="nav-item nav-profile">
+                    <a href="logout.html" class="profile-btn">
+                        <i class="fas fa-sign-out-alt"></i> Log Out
+                    </a>
+                </li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Dashboard Section -->
+    <section class="hero-section" id="home">
+        <div class="dashboard-header">
+            <h1>Welcome to Wise-Vent👋</h1>
+            <p>Manage your events and platform!</p>
+        </div>
+        <div class="dashboard-grid">
+            <!-- My Events Box -->
+            <div class="dashboard-box">
+                <div class="dashboard-box-icon">
+                    <i class="fas fa-calendar-check"></i>
+                </div>
+                <h3>My Events</h3>
+                <p>View and manage all events you've created and registered for</p>
+                <button class="btn btn-primary" onclick="window.location.href='myevents.html'">
+                    View Events <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+
+            <!-- Create Event Box -->
+            <div class="dashboard-box">
+                <div class="dashboard-box-icon">
+                    <i class="fas fa-plus-circle"></i>
+                </div>
+                <h3>Create Event</h3>
+                <p>Start creating your own event and connect with people</p>
+                <button class="btn btn-primary" onclick="window.location.href='createevent.html'">
+                    Create New <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+
+            <!-- User Profile Box -->
+            <div class="dashboard-box">
+                <div class="dashboard-box-icon">
+                    <i class="fas fa-user"></i>
+                </div>
+                <h3>User</h3>
+                <p>Manage your profile, settings and account security</p>
+                <button class="btn btn-primary" onclick="window.location.href='user.html'">
+                    Go to User <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Wise-vent</h4>
+                    <p>Your ultimate event management platform</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Dashboard</a></li>
+                        <li><a href="myevents.html">My Events</a></li>
+                        <li><a href="user.html">User</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Follow Us</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <p class="footer-bottom">&copy; 2026 Wise-vent. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

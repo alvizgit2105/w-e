@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - Wise-vent</title>
+    <link rel="stylesheet" href="ProfileSettings.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-calendar-alt"></i> Wise-vent
+            </div>
+            <ul class="nav-menu" id="nav-menu">
+                <li class="nav-item"><a href="Dash.html#home" class="nav-link">Dashboard</a></li>
+                <li class="nav-item"><a href="Dash.html#my-events" class="nav-link">My Events</a></li>
+                <li class="nav-item nav-profile">
+                    <a href="logout.html" class="profile-btn">
+                        <i class="fas fa-sign-out-alt"></i> Log Out
+                    </a>
+                </li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="content-wrapper">
+        <div class="container">
+            <div class="page-header">
+                <h1><i class="fas fa-cog"></i> Settings</h1>
+                <p>Customize your experience</p>
+            </div>
+
+            <div class="settings-container">
+                <!-- Account Settings -->
+                <div class="settings-card">
+                    <h3><i class="fas fa-lock"></i> Account Security</h3>
+                    <div class="settings-item">
+                        <div class="settings-info">
+                            <p class="settings-title">Password</p>
+                            <p class="settings-description">Change your password regularly to keep your account secure</p>
+                        </div>
+                        <button class="btn btn-small">Change Password</button>
+                    </div>
+                    <div class="settings-divider"></div>
+                    <div class="settings-item">
+                        <div class="settings-info">
+                            <p class="settings-title">Two-Factor Authentication</p>
+                            <p class="settings-description">Add an extra layer of security to your account</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Notification Settings -->
+                <div class="settings-card">
+                    <h3><i class="fas fa-bell"></i> Notifications</h3>
+                    <div class="settings-item">
+                        <div class="settings-info">
+                            <p class="settings-title">Email Notifications</p>
+                            <p class="settings-description">Receive updates about events and activities</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="settings-divider"></div>
+                    <div class="settings-item">
+                        <div class="settings-info">
+                            <p class="settings-title">Event Reminders</p>
+                            <p class="settings-description">Get reminded before events start</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="settings-divider"></div>
+                    <div class="settings-item">
+                        <div class="settings-info">
+                            <p class="settings-title">Marketing Emails</p>
+                            <p class="settings-description">Receive promotional offers and announcements</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Privacy Settings -->
+                <div class="settings-card">
+                    <h3><i class="fas fa-eye-slash"></i> Privacy</h3>
+                    <div class="settings-item">
+                        <div class="settings-info">
+                            <p class="settings-title">Profile Visibility</p>
+                            <p class="settings-description">Choose who can see your profile</p>
+                        </div>
+                        <select class="settings-select">
+                            <option value="public">Public</option>
+                            <option value="private">Private</option>
+                            <option value="friends">Friends Only</option>
+                        </select>
+                    </div>
+                    <div class="settings-divider"></div>
+                    <div class="settings-item">
+                        <div class="settings-info">
+                            <p class="settings-title">Search Visibility</p>
+                            <p class="settings-description">Allow your profile to appear in search results</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Preference Settings -->
+                <div class="settings-card">
+                    <h3><i class="fas fa-palette"></i> Preferences</h3>
+                    <div class="settings-item">
+                        <div class="settings-info">
+                            <p class="settings-title">Theme</p>
+                            <p class="settings-description">Choose your preferred theme</p>
+                        </div>
+                        <select class="settings-select">
+                            <option value="light">Light</option>
+                            <option value="dark">Dark</option>
+                            <option value="auto">Auto</option>
+                        </select>
+                    </div>
+                    <div class="settings-divider"></div>
+                    <div class="settings-item">
+                        <div class="settings-info">
+                            <p class="settings-title">Language</p>
+                            <p class="settings-description">Select your preferred language</p>
+                        </div>
+                        <select class="settings-select">
+                            <option value="en">English</option>
+                            <option value="es">Spanish</option>
+                            <option value="fr">French</option>
+                            <option value="de">German</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="settings-actions">
+                    <button class="btn btn-primary" onclick="alert('Settings saved!')">
+                        <i class="fas fa-save"></i> Save Settings
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Wise-vent</h4>
+                    <p>Your ultimate event management platform</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="Dash.html#home">Dashboard</a></li>
+                        <li><a href="myevents.html">My Events</a></li>
+                        <li><a href="user.html">User</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Follow Us</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <p class="footer-bottom">&copy; 2026 Wise-vent. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

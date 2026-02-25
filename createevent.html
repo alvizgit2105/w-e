@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Event - Wise-vent</title>
+    <link rel="stylesheet" href="Pages.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-calendar-alt"></i> Wise-vent
+            </div>
+            <ul class="nav-menu" id="nav-menu">
+                <li class="nav-item"><a href="Dash.html#home" class="nav-link">Dashboard</a></li>
+                <li class="nav-item"><a href="createevent.html" class="nav-link">Create Event</a></li>
+                <li class="nav-item nav-profile">
+                    <a href="logout.html" class="profile-btn">
+                        <i class="fas fa-sign-out-alt"></i> Log Out
+                    </a>
+                </li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <section class="hero-section-create">
+        <div class="container">
+            <div class="back-btn-wrapper">
+                <a href="Dash.html" class="back-btn" title="Back to Events">
+                    <i class="fas fa-arrow-left"></i>
+                </a>
+            </div>
+            <div class="page-header">
+                <div>
+                    <h1><i class="fas fa-plus-circle"></i> Create Event</h1>
+                    <p>Host your own event and connect with people</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <main class="content-wrapper">
+        <div class="container">
+            <div class="form-container">
+                <form class="event-form" id="event-form" method="POST" action="javascript:void(0);">
+                    <input type="hidden" name="create_event" value="1">
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="event-title">Event Title *</label>
+                            <input type="text" id="event-title" name="title" list="event-titles" required placeholder="Enter or select event title">
+                            <datalist id="event-titles">
+                                <option value="Seminar">
+                                <option value="Graduation Ceremony">
+                                <option value="Foundation Day">
+                                <option value="Officer Meeting">
+                                <option value="Conference">
+                                <option value="Course Event">
+                                <option value="Instramurals">
+                                <option value="Cultural Event">
+                                <option value="Other">
+                            </datalist>
+                        </div>
+                        <div class="form-group">
+                            <label for="event-category">Category *</label>
+                            <select id="event-category" name="category" required>
+                                <option value="">Select category</option>
+                                <option value="seminar">Seminar</option>
+                                <option value="webinar">Webinar</option>
+                                <option value="traditional">Traditional</option>
+                                <option value="sports event">Sports Event</option>
+                                <option value="instramurals">Instramurals</option>
+                                <option value="music">Music</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="event-date">Date *</label>
+                            <input type="date" id="event-date" name="date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="event-time">Time *</label>
+                            <input type="time" id="event-time" name="time" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="event-location">Location *</label>
+                        <input type="text" id="event-location" name="location" required placeholder="State University Campus, Philippines">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="event-description">Description *</label>
+                        <textarea id="event-description" name="description" required placeholder="Describe your event..."></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="attendees-select">Attendees *</label>
+                            <select id="attendees-select">
+                                <option value="">Select attendee type</option>
+                                <option value="Teaching Staff">Teaching Staff</option>
+                                <option value="Non-Teaching Staff">Non-Teaching Staff</option>
+                                <option value="Student">Student</option>
+                                <option value="Alumni">Alumni</option>
+                                <option value="Parent">Parent</option>
+                            </select>
+                            <button type="button" id="add-attendee-btn" class="btn btn-secondary" style="margin-left: 10px;">Add</button>
+                        </div>
+                        <div class="form-group">
+                            <label for="attendees-list">List of Attendees</label>
+                            <select id="attendees-list" name="attendees[]" multiple style="height: 100px; width: 100%;"></select>
+                            <button type="button" id="remove-attendee-btn" class="btn btn-secondary" style="margin-top: 10px;">Remove Selected</button>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" id="clear-btn" class="btn btn-secondary">
+                            <i class="fas fa-eraser"></i> Clear
+                        </button>
+                        <button type="submit" id="submit-btn" class="btn btn-primary">
+                            <i class="fas fa-check"></i> Create Event
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Wise-vent</h4>
+                    <p>Your ultimate event management platform</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="Dash.html#home">Dashboard</a></li>
+                        <li><a href="myevents.html">My Events</a></li>
+                        <li><a href="createevent.html">Create Event</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Follow Us</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <p class="footer-bottom">&copy; 2026 Wise-vent. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        document.getElementById('add-attendee-btn').addEventListener('click', function() {
+            const select = document.getElementById('attendees-select');
+            const list = document.getElementById('attendees-list');
+            const selectedValue = select.value;
+            const selectedText = select.options[select.selectedIndex].text;
+
+            if (selectedValue && !Array.from(list.options).some(option => option.value === selectedValue)) {
+                const option = document.createElement('option');
+                option.value = selectedValue;
+                option.text = selectedText;
+                list.add(option);
+            }
+        });
+
+        document.getElementById('remove-attendee-btn').addEventListener('click', function() {
+            const list = document.getElementById('attendees-list');
+            const selectedOptions = Array.from(list.selectedOptions);
+            selectedOptions.forEach(option => {
+                list.removeChild(option);
+            });
+        });
+
+        document.getElementById('clear-btn').addEventListener('click', function() {
+            document.querySelector('.event-form').reset();
+            document.getElementById('attendees-list').innerHTML = '';
+        });
+
+        document.getElementById('submit-btn').addEventListener('click', function(event) {
+            event.preventDefault();
+            const form = document.getElementById('event-form');
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+
+            const formData = new FormData(form);
+            const eventData = {
+                title: formData.get('title'),
+                category: formData.get('category'),
+                date: formData.get('date'),
+                time: formData.get('time'),
+                location: formData.get('location'),
+                description: formData.get('description'),
+                attendees: formData.getAll('attendees[]')
+            };
+
+            let events = JSON.parse(localStorage.getItem('myEvents')) || [];
+            events.push(eventData);
+            localStorage.setItem('myEvents', JSON.stringify(events));
+
+            window.location.href = 'myevents.html';
+        });
+    </script>
+</body>
+</html>
