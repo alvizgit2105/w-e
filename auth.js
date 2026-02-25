@@ -13,9 +13,17 @@ function setError(id, message) {
 }
 
 async function redirectIfAuthenticated() {
-  const { data, error } = await supabase.auth.getSession();
-  if (!error && data.session) {
-    window.location.href = 'Dash.html';
+  try {
+    const { data, error } = await supabase.auth.getSession();
+    if (error) {
+      console.error('Error checking Supabase session:', error);
+      return;
+    }
+    if (data && data.session) {
+      window.location.href = 'Dash.html';
+    }
+  } catch (e) {
+    console.error('Unexpected error checking Supabase session:', e);
   }
 }
 
@@ -47,20 +55,25 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
+      try {
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email,
+          password,
+        });
 
-      if (error) {
-        setError('login-error', error.message || 'Login failed.');
-        return;
-      }
+        if (error) {
+          setError('login-error', error.message || 'Login failed.');
+          return;
+        }
 
-      if (data.session) {
-        window.location.href = 'Dash.html';
-      } else {
-        setError('login-error', 'Login succeeded but no session was returned.');
+        if (data && data.session) {
+          window.location.href = 'Dash.html';
+        } else {
+          setError('login-error', 'Login succeeded but no session was returned.');
+        }
+      } catch (e) {
+        console.error('Unexpected error during login:', e);
+        setError('login-error', 'Unexpected error during login. Check console for details.');
       }
     });
   }
@@ -80,28 +93,37 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          data: { name },
-        },
-      });
+      try {
+        const { data, error } = await supabase.auth.signUp({
+          email,
+          password,
+          options: {
+            data: { name },
+          },
+        });
 
-      if (error) {
-        setError('register-error', error.message || 'Registration failed.');
-        return;
-      }
+        if (error) {
+          setError('register-error', error.message || 'Registration failed.');
+          return;
+        }
 
-      // Depending on your Supabase auth settings, email confirmation may be required.
-      // For now, just redirect to dashboard on success.
-      if (data.user) {
-        window.location.href = 'Dash.html';
-      } else {
-        setError(
-          'register-error',
-          'Registration succeeded. Please check your email to confirm your account.',
-        );
+        // Depending on your Supabase auth settings, email confirmation may be required.
+        if (data && data.user) {
+          // If email confirmation is required, Supabase will send an email.
+          setError(
+            'register-error',
+            'Registration successful. Please check your email to confirm your account, then log in.',
+          );
+          showForm('login-form');
+        } else {
+          setError(
+            'register-error',
+            'Registration succeeded. Please check your email to confirm your account.',
+          );
+        }
+      } catch (e) {
+        console.error('Unexpected error during registration:', e);
+        setError('register-error', 'Unexpected error during registration. Check console for details.');
       }
     });
   }
