@@ -2,9 +2,8 @@
   "redirects": [
     {
       "source": "/",
-      "destination": "/Dash.html",
+      "destination": "/index.html",
       "permanent": false
     }
   ]
 }
-
