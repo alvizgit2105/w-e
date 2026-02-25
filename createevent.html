@@ -215,6 +215,8 @@
                 attendees: formData.getAll('attendees[]')
             };
 
+            // For now, events are stored locally. In a later step,
+            // this can be connected to a Supabase table.
             let events = JSON.parse(localStorage.getItem('myEvents')) || [];
             events.push(eventData);
             localStorage.setItem('myEvents', JSON.stringify(events));
@@ -222,5 +224,6 @@
             window.location.href = 'myevents.html';
         });
     </script>
+    <script type="module" src="authGuard.js"></script>
 </body>
 </html>
