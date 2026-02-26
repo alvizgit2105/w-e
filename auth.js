@@ -27,7 +27,9 @@ async function redirectIfAuthenticated() {
   }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+function initAuthPage() {
+  console.log('[Wise-vent] Initializing auth page handlers');
+
   // If we're on the login/register page, wire up forms
   const loginFormWrapper = document.getElementById('login-form');
   const registerFormWrapper = document.getElementById('register-form');
@@ -114,7 +116,9 @@ document.addEventListener('DOMContentLoaded', () => {
             'register-error',
             'Registration successful. Please check your email to confirm your account, then log in.',
           );
-          showForm('login-form');
+          if (typeof window !== 'undefined' && typeof window.showForm === 'function') {
+            window.showForm('login-form');
+          }
         } else {
           setError(
             'register-error',
@@ -127,5 +131,12 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
-});
+}
+
+// Ensure handlers are attached regardless of when the script runs
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initAuthPage);
+} else {
+  initAuthPage();
+}
 
