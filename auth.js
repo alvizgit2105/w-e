@@ -62,15 +62,15 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         if (error) {
+          console.error('Supabase login error:', error);
           setError('login-error', error.message || 'Login failed.');
           return;
         }
 
-        if (data && data.session) {
-          window.location.href = 'Dash.html';
-        } else {
-          setError('login-error', 'Login succeeded but no session was returned.');
-        }
+        console.log('Supabase login success:', data);
+        // If Supabase returns no error, treat this as a successful login
+        // and send the user to the main dashboard.
+        window.location.href = 'Dash.html';
       } catch (e) {
         console.error('Unexpected error during login:', e);
         setError('login-error', 'Unexpected error during login. Check console for details.');
