@@ -324,5 +324,115 @@
         }
     </script>
     <script type="module" src="authGuard.js"></script>
+    <script type="module">
+        import { supabase } from './supabaseClient.js';
+
+        async function getProfileStorageKey() {
+            const { data } = await supabase.auth.getSession();
+            const userId = data?.session?.user?.id || 'anonymous';
+            return `profile:${userId}`;
+        }
+
+        function updateHeaderFromProfile(profile, user) {
+            const nameHeading = document.querySelector('.profile-info h2');
+            const emailPara = document.querySelector('.profile-info p:nth-of-type(1)');
+            const memberSincePara = document.querySelector('.profile-info .member-since');
+
+            if (nameHeading) {
+                nameHeading.textContent = `${profile.firstName || ''} ${profile.lastName || ''}`.trim() || (user?.email ?? 'User');
+            }
+            if (emailPara && user?.email) {
+                emailPara.textContent = user.email;
+            }
+            if (memberSincePara && user?.created_at) {
+                const joined = new Date(user.created_at);
+                memberSincePara.textContent = `Member since ${joined.toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                })}`;
+            }
+        }
+
+        async function loadProfile() {
+            const { data } = await supabase.auth.getSession();
+            const user = data?.session?.user;
+
+            const storageKey = await getProfileStorageKey();
+            const saved = JSON.parse(localStorage.getItem(storageKey) || '{}');
+
+            // Default values from Supabase user
+            const meta = user?.user_metadata || {};
+            const defaultFirstName = meta.firstName || meta.given_name || '';
+            const defaultLastName = meta.lastName || meta.family_name || '';
+
+            const profile = {
+                firstName: saved.firstName ?? defaultFirstName,
+                lastName: saved.lastName ?? defaultLastName,
+                email: user?.email || saved.email || '',
+                phone: saved.phone ?? '',
+                bio: saved.bio ?? '',
+                city: saved.city ?? '',
+                state: saved.state ?? '',
+            };
+
+            // Fill form fields
+            (document.getElementById('firstName') || {}).value = profile.firstName;
+            (document.getElementById('lastName') || {}).value = profile.lastName;
+            (document.getElementById('email') || {}).value = profile.email;
+            (document.getElementById('phone') || {}).value = profile.phone;
+            (document.getElementById('bio') || {}).value = profile.bio;
+            (document.getElementById('city') || {}).value = profile.city;
+            (document.getElementById('state') || {}).value = profile.state;
+
+            updateHeaderFromProfile(profile, user);
+        }
+
+        async function handleProfileSubmit(event) {
+            event.preventDefault();
+
+            const profile = {
+                firstName: (document.getElementById('firstName') || {}).value?.trim() || '',
+                lastName: (document.getElementById('lastName') || {}).value?.trim() || '',
+                email: (document.getElementById('email') || {}).value?.trim() || '',
+                phone: (document.getElementById('phone') || {}).value?.trim() || '',
+                bio: (document.getElementById('bio') || {}).value?.trim() || '',
+                city: (document.getElementById('city') || {}).value?.trim() || '',
+                state: (document.getElementById('state') || {}).value?.trim() || '',
+            };
+
+            const storageKey = await getProfileStorageKey();
+            localStorage.setItem(storageKey, JSON.stringify(profile));
+
+            try {
+                // Also try to update Supabase user metadata so profile follows the user
+                await supabase.auth.updateUser({
+                    data: {
+                        firstName: profile.firstName,
+                        lastName: profile.lastName,
+                        phone: profile.phone,
+                        bio: profile.bio,
+                        city: profile.city,
+                        state: profile.state,
+                    },
+                });
+            } catch (err) {
+                console.error('Error updating Supabase user metadata:', err);
+            }
+
+            const { data } = await supabase.auth.getSession();
+            const user = data?.session?.user;
+            updateHeaderFromProfile(profile, user);
+
+            alert('Profile saved successfully.');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadProfile();
+            const profileForm = document.querySelector('.profile-form');
+            if (profileForm) {
+                profileForm.addEventListener('submit', handleProfileSubmit);
+            }
+        });
+    </script>
 </body>
 </html>
