@@ -58,6 +58,14 @@ function initAuthPage() {
       }
 
       try {
+        setError('login-error', '');
+        const loginBtn = loginForm.querySelector('button[type="submit"]');
+        const originalBtnText = loginBtn ? loginBtn.textContent : '';
+        if (loginBtn) {
+          loginBtn.disabled = true;
+          loginBtn.textContent = 'Signing in…';
+        }
+
         const { data, error } = await supabase.auth.signInWithPassword({
           email,
           password,
@@ -66,16 +74,30 @@ function initAuthPage() {
         if (error) {
           console.error('Supabase login error:', error);
           setError('login-error', error.message || 'Login failed.');
+          if (loginBtn) {
+            loginBtn.disabled = false;
+            loginBtn.textContent = originalBtnText;
+          }
           return;
         }
 
         console.log('Supabase login success:', data);
-        // If Supabase returns no error, treat this as a successful login
-        // and send the user to the main dashboard.
-        window.location.href = 'Dash.html';
+        // Ensure session is in storage before redirect so authGuard on Dash sees it
+        const { data: sessionData } = await supabase.auth.getSession();
+        if (sessionData?.session) {
+          window.location.replace('Dash.html');
+          return;
+        }
+        // Fallback: redirect anyway so we don't get stuck (session may still be writing)
+        window.location.replace('Dash.html');
       } catch (e) {
         console.error('Unexpected error during login:', e);
-        setError('login-error', 'Unexpected error during login. Check console for details.');
+        setError('login-error', e && e.message ? e.message : 'Unexpected error. Check console.');
+        const loginBtn = loginForm.querySelector('button[type="submit"]');
+        if (loginBtn) {
+          loginBtn.disabled = false;
+          loginBtn.textContent = 'Login';
+        }
       }
     });
   }
