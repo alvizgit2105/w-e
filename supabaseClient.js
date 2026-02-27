@@ -2,8 +2,8 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
 // Your Supabase project values
-const SUPABASE_URL = 'https://mmfpraghhxizlxrazwfi.supabase.co';
-const SUPABASE_ANON_KEY = 'sb_publishable_wrihZdJPMl7L9stcZejXyQ_6ES8kSa0';
+const SUPABASE_URL = 'https://riscruifcecupzsxisbo.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_QZiiyAbZXqvW79JK09NFqA_CRB3_BnS';
 
 // Basic sanity checks so misconfiguration shows clearly in the console
 if (!SUPABASE_URL || !SUPABASE_URL.startsWith('https://')) {
