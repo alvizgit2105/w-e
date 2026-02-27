@@ -1,5 +1,6 @@
 // Use an ESM-compatible CDN build of supabase-js for browser modules
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+// (official ESM bundle from jsDelivr)
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/esm/supabase-js.mjs';
 
 // Your Supabase project values (from Supabase Dashboard > Project Settings > API)
 const SUPABASE_URL = 'https://riscruifcecupzsxisbo.supabase.co';
