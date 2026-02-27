@@ -167,11 +167,20 @@
     </footer>
 
     <script src="script.js"></script>
-    <script>
-        function renderEvents() {
+    <script type="module">
+        import { supabase } from './supabaseClient.js';
+
+        async function getEventsStorageKey() {
+            const { data } = await supabase.auth.getSession();
+            const userId = data?.session?.user?.id || 'anonymous';
+            return `myEvents:${userId}`;
+        }
+
+        async function renderEvents() {
             const eventsGrid = document.getElementById('events-grid');
             eventsGrid.innerHTML = '';
-            const events = JSON.parse(localStorage.getItem('myEvents')) || [];
+            const storageKey = await getEventsStorageKey();
+            const events = JSON.parse(localStorage.getItem(storageKey)) || [];
 
             events.forEach((eventData, index) => {
                 const eventCard = document.createElement('div');
@@ -207,8 +216,8 @@
             });
         }
 
-        document.addEventListener('DOMContentLoaded', function() {
-            renderEvents();
+        document.addEventListener('DOMContentLoaded', async function() {
+            await renderEvents();
 
             const modal = document.getElementById('event-modal');
             const modalTitle = document.getElementById('modal-title');
@@ -216,10 +225,11 @@
             const closeModal = document.getElementById('close-modal');
 
             // Event listener for View Details buttons
-            document.addEventListener('click', function(e) {
+            document.addEventListener('click', async function(e) {
                 if (e.target.classList.contains('view-details-btn')) {
                     const index = e.target.getAttribute('data-index');
-                    const events = JSON.parse(localStorage.getItem('myEvents')) || [];
+                    const storageKey = await getEventsStorageKey();
+                    const events = JSON.parse(localStorage.getItem(storageKey)) || [];
                     const eventData = events[index];
                     modalTitle.textContent = eventData.title;
                     modalBody.innerHTML = `
@@ -238,22 +248,25 @@
             });
 
             // Event listener for Edit buttons
-            document.addEventListener('click', function(e) {
+            document.addEventListener('click', async function(e) {
                 if (e.target.closest('.edit-btn')) {
                     const index = e.target.closest('.edit-btn').getAttribute('data-index');
-                    localStorage.setItem('editEventIndex', index);
+                    const storageKey = await getEventsStorageKey();
+                    // Persist which event index to edit for this user
+                    localStorage.setItem(`${storageKey}:editIndex`, index);
                     window.location.href = 'createevent.html';
                 }
             });
 
             // Event listener for Delete buttons
-            document.addEventListener('click', function(e) {
+            document.addEventListener('click', async function(e) {
                 if (e.target.closest('.delete-btn')) {
                     const index = e.target.closest('.delete-btn').getAttribute('data-index');
-                    let events = JSON.parse(localStorage.getItem('myEvents')) || [];
+                    const storageKey = await getEventsStorageKey();
+                    let events = JSON.parse(localStorage.getItem(storageKey)) || [];
                     events.splice(index, 1);
-                    localStorage.setItem('myEvents', JSON.stringify(events));
-                    renderEvents();
+                    localStorage.setItem(storageKey, JSON.stringify(events));
+                    await renderEvents();
                     modal.style.display = 'none'; // Close modal if open
                 }
             });

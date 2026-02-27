@@ -168,7 +168,15 @@
     </footer>
 
     <script src="script.js"></script>
-    <script>
+    <script type="module">
+        import { supabase } from './supabaseClient.js';
+
+        async function getEventsStorageKey() {
+            const { data } = await supabase.auth.getSession();
+            const userId = data?.session?.user?.id || 'anonymous';
+            return `myEvents:${userId}`;
+        }
+
         document.getElementById('add-attendee-btn').addEventListener('click', function() {
             const select = document.getElementById('attendees-select');
             const list = document.getElementById('attendees-list');
@@ -196,7 +204,7 @@
             document.getElementById('attendees-list').innerHTML = '';
         });
 
-        document.getElementById('submit-btn').addEventListener('click', function(event) {
+        document.getElementById('submit-btn').addEventListener('click', async function(event) {
             event.preventDefault();
             const form = document.getElementById('event-form');
             if (!form.checkValidity()) {
@@ -215,11 +223,12 @@
                 attendees: formData.getAll('attendees[]')
             };
 
-            // For now, events are stored locally. In a later step,
-            // this can be connected to a Supabase table.
-            let events = JSON.parse(localStorage.getItem('myEvents')) || [];
+            // Store events per logged-in user in localStorage,
+            // so each account only sees their own events.
+            const storageKey = await getEventsStorageKey();
+            let events = JSON.parse(localStorage.getItem(storageKey)) || [];
             events.push(eventData);
-            localStorage.setItem('myEvents', JSON.stringify(events));
+            localStorage.setItem(storageKey, JSON.stringify(events));
 
             window.location.href = 'myevents.html';
         });
