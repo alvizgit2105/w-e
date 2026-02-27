@@ -66,13 +66,23 @@
                     <div class="profile-card">
                         <div class="profile-header">
                             <div class="profile-picture">
-                                <i class="fas fa-user-circle"></i>
+                                <img id="profileImage" alt="Profile photo" style="display:none; width: 100%; height: 100%; border-radius: 50%; object-fit: cover;" />
+                                <i id="profileImageIcon" class="fas fa-user-circle"></i>
                             </div>
                             <div class="profile-info">
                                 <h2>John Doe</h2>
                                 <p>john.doe@example.com</p>
                                 <p class="member-since">Member since March 2024</p>
                             </div>
+                        </div>
+                        <div style="display:flex; justify-content:center; gap:10px; margin-top: 15px;">
+                            <input id="profileImageInput" type="file" accept="image/*" style="display:none;" />
+                            <button type="button" id="change-photo-btn" class="btn btn-secondary btn-small">
+                                <i class="fas fa-camera"></i> Change Photo
+                            </button>
+                            <button type="button" id="remove-photo-btn" class="btn btn-secondary btn-small">
+                                <i class="fas fa-trash"></i> Remove
+                            </button>
                         </div>
                     </div>
 
@@ -333,6 +343,28 @@
             return `profile:${userId}`;
         }
 
+        async function getAvatarStorageKey() {
+            const { data } = await supabase.auth.getSession();
+            const userId = data?.session?.user?.id || 'anonymous';
+            return `profileAvatar:${userId}`;
+        }
+
+        function setAvatarOnPage(dataUrl) {
+            const img = document.getElementById('profileImage');
+            const icon = document.getElementById('profileImageIcon');
+            if (!img || !icon) return;
+
+            if (dataUrl) {
+                img.src = dataUrl;
+                img.style.display = 'block';
+                icon.style.display = 'none';
+            } else {
+                img.removeAttribute('src');
+                img.style.display = 'none';
+                icon.style.display = 'block';
+            }
+        }
+
         function updateHeaderFromProfile(profile, user) {
             const nameHeading = document.querySelector('.profile-info h2');
             const emailPara = document.querySelector('.profile-info p:nth-of-type(1)');
@@ -359,6 +391,10 @@
 
             const storageKey = await getProfileStorageKey();
             const saved = JSON.parse(localStorage.getItem(storageKey) || '{}');
+
+            const avatarKey = await getAvatarStorageKey();
+            const avatarDataUrl = localStorage.getItem(avatarKey) || '';
+            setAvatarOnPage(avatarDataUrl);
 
             // Default values from Supabase user
             const meta = user?.user_metadata || {};
@@ -426,11 +462,84 @@
             alert('Profile saved successfully.');
         }
 
+        async function handleChooseAvatar() {
+            const input = document.getElementById('profileImageInput');
+            if (!input) return;
+            input.click();
+        }
+
+        async function handleAvatarFileChange(event) {
+            const file = event.target?.files?.[0];
+            if (!file) return;
+
+            // Keep avatars lightweight for localStorage (roughly <= ~1.5MB data URL)
+            const maxBytes = 900 * 1024; // 900KB
+            if (file.size > maxBytes) {
+                alert('Image is too large. Please choose an image under 900KB.');
+                event.target.value = '';
+                return;
+            }
+
+            if (!file.type.startsWith('image/')) {
+                alert('Please choose an image file.');
+                event.target.value = '';
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = async () => {
+                const dataUrl = typeof reader.result === 'string' ? reader.result : '';
+                if (!dataUrl) return;
+
+                const avatarKey = await getAvatarStorageKey();
+                localStorage.setItem(avatarKey, dataUrl);
+                setAvatarOnPage(dataUrl);
+
+                try {
+                    await supabase.auth.updateUser({ data: { avatarDataUrl: dataUrl } });
+                } catch (err) {
+                    console.error('Error updating avatar in Supabase user metadata:', err);
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+
+        async function handleRemoveAvatar() {
+            const avatarKey = await getAvatarStorageKey();
+            localStorage.removeItem(avatarKey);
+            setAvatarOnPage('');
+
+            try {
+                await supabase.auth.updateUser({ data: { avatarDataUrl: null } });
+            } catch (err) {
+                console.error('Error clearing avatar in Supabase user metadata:', err);
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             loadProfile();
             const profileForm = document.querySelector('.profile-form');
             if (profileForm) {
                 profileForm.addEventListener('submit', handleProfileSubmit);
+            }
+
+            const changeBtn = document.getElementById('change-photo-btn');
+            if (changeBtn) {
+                changeBtn.addEventListener('click', handleChooseAvatar);
+            }
+            const removeBtn = document.getElementById('remove-photo-btn');
+            if (removeBtn) {
+                removeBtn.addEventListener('click', handleRemoveAvatar);
+            }
+            const input = document.getElementById('profileImageInput');
+            if (input) {
+                input.addEventListener('change', handleAvatarFileChange);
+            }
+            const pic = document.querySelector('.profile-picture');
+            if (pic) {
+                pic.style.cursor = 'pointer';
+                pic.title = 'Change profile photo';
+                pic.addEventListener('click', handleChooseAvatar);
             }
         });
     </script>
